@@ -21,4 +21,15 @@ resource "aws_lambda_function" "lambda_function" {
   runtime       = "python3.7"
 
   role          = ""
+
+  environment {
+    variables = {
+      PYTHONPATH  = "/var/task/venv/lib/python3.7/site-packages"
+
+      DB_HOST     = "mysql"
+      DB_NAME     = "example"
+      DB_USER     = "root"  
+      DB_PASSWORD = "password"
+    }
+  }
 }

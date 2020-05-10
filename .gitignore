@@ -1,6 +1,6 @@
 **/*/__pycache__
-
-venv/
 *terraform*
+venv/
+.vscode/
 
-response.json
+

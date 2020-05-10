@@ -1,26 +1,42 @@
-version: '2.1'
+version: '3.5'
 
 services:
   localstack:
     image: localstack/localstack:0.11.0
-    networks: 
-      - example
     ports:
-      - "4566-4599:4566-4599"
-      - "${PORT_WEB_UI-8080}:${PORT_WEB_UI-8080}"
+      - 4566-4599:4566-4599
+      - 8080:8080
     environment:
       - SERVICES=lambda
       - DEBUG=true
       - DATA_DIR=/tmp/localstack/data
-      - LAMBDA_EXECUTOR=docker
+      - LAMBDA_EXECUTOR=docker-reuse
       - LAMBDA_REMOTE_DOCKER=false
-      - LAMBDA_DOCKER_NETWORK=global_network
+      - LAMBDA_DOCKER_NETWORK=localstack_terraform_python_lambda_ex_localstack
       - DOCKER_HOST=unix:///var/run/docker.sock
     volumes:
-      - "/tmp/localstack:/tmp/localstack"
-      - "/var/run/docker.sock:/var/run/docker.sock"
+      - localstack:/tmp/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
 
+  mysql:
+    image: mysql:8.0
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - localstack
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=example
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    volumes:
+      - mysql:/var/lib/mysql
+  
 networks:
-  example:
-    driver: bridge
-    name: global_network
+  localstack:
+
+volumes:
+  mysql:
+  localstack:
