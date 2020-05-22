@@ -3,6 +3,8 @@ version: '3.5'
 services:
   localstack:
     image: localstack/localstack:0.11.0
+    networks: 
+      - localstack
     ports:
       - 4566-4599:4566-4599
       - 8080:8080
@@ -10,10 +12,9 @@ services:
       - SERVICES=lambda
       - DEBUG=true
       - DATA_DIR=/tmp/localstack/data
-      - LAMBDA_EXECUTOR=docker-reuse
+      - LAMBDA_EXECUTOR=docker
       - LAMBDA_REMOTE_DOCKER=false
       - LAMBDA_DOCKER_NETWORK=localstack_terraform_python_lambda_ex_localstack
-      - DOCKER_HOST=unix:///var/run/docker.sock
     volumes:
       - localstack:/tmp/localstack
       - /var/run/docker.sock:/var/run/docker.sock
@@ -33,6 +34,19 @@ services:
       - 3306
     volumes:
       - mysql:/var/lib/mysql
+
+  infrastructure:
+    build:
+      context: ./infrastructure/local
+    command: deploy
+    networks:
+      - localstack
+    environment: 
+      - LOCAL_STACK_SERVICES=lambda
+      - LOCAL_STACK_HOST=localstack
+      - LOCAL_STACK_PORT=8080
+    volumes:
+      - ./infrastructure/local:/app
   
 networks:
   localstack:

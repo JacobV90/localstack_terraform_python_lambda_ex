@@ -8,7 +8,7 @@ provider "aws" {
   skip_requesting_account_id  = true
 
   endpoints {
-    lambda         = "http://localhost:4574"
+    lambda         = "http://localstack:4574"
   }
 }
 
