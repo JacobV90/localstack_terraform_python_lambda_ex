@@ -31,18 +31,27 @@ python3 -m venv venv
 pip install -r requirements.txt
 ```
 
-Now run:
+Create a **.env** file in the top level directory with these variables:
+```
+TF_VAR_PROJECT_ABS_PATH={your_absolute_path_to_this_project}
+TF_VAR_PYTHON_LIB_PATH={relative_path_to_python_packages}
+```
+
+## Running the example project
 ```
 docker-compose up
 ```
 
-You should see localstack outputting logs. The infrastructure service will wait for Localstack to be ready inorder to deploy the lambda function. 
+After the docker images are pulled down and built, you should see Localstack outputting logs when its container is started. *The infrastructure service will wait for Localstack to be ready inorder to deploy the lambda function.* 
 
-Once the lambda function is deployed, run in an acivated terminal:
+Once the lambda function is deployed, run in a python virtual environment activated terminal:
 ```
 awslocal lambda invoke --function-name lambda-function response.json
 ```
+>[awslocal](https://github.com/localstack/awscli-local) is python package that mimics the **awscli** tool but is tailored towards Localstack. It makes it very easy to interact with Localstack like you normally would with AWS.
 
 The lambda function should have been successfully invoked and should return its connection status to the MySql database.
 
-And thats it! You can now make changes to the lambda functions code without having to deploy to AWS or redeploy to Localstack. 
+**And thats it!**
+
+You can now make changes to the lambda functions code without having to deploy to AWS or redeploy to Localstack. 
