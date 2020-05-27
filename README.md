@@ -27,7 +27,7 @@ pip install -r requirements.txt
 ``` powershell
 cd localstack_terraform_python_lambda_ex
 python3 -m venv venv
-./venv/Scripts/activate
+.\venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
@@ -55,3 +55,14 @@ The lambda function should have been successfully invoked and should return its 
 **And thats it!**
 
 You can now make changes to the lambda functions code without having to deploy to AWS or redeploy to Localstack. 
+
+If you found this example valuable and want to show some love, I wouldn't say no to a coffee 😄
+
+Paypal - 
+https://paypal.me/therealveal?locale.x=en_US
+
+Cashapp - https://cash.app/$theRealVeal
+
+Bitcoin - 3HgZALWTyDFum4YcFwvjNvhYZHDUhJ45EQ
+
+Ethereum - 0xED4e780A5E35d9d9cA0275302f16A394aeF7D862
