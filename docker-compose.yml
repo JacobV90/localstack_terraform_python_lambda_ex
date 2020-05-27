@@ -39,6 +39,7 @@ services:
     build:
       context: ./infrastructure/local
     command: deploy
+    env_file: .env
     networks:
       - localstack
     environment: 

@@ -12,11 +12,21 @@ provider "aws" {
   }
 }
 
+variable PROJECT_ABS_PATH {
+  type    = "string"
+  default = ""
+}
+
+variable PYTHON_LIB_PATH {
+  type    = "string"
+  default = ""
+}
+
 resource "aws_lambda_function" "lambda_function" {
   s3_bucket     = "__local__"
-  s3_key        = "/Users/jacobveal/git/localstack_terraform_python_lambda_ex"
+  s3_key        = "${var.PROJECT_ABS_PATH}"
 
-  function_name = "function_handler"
+  function_name = "lambda-function"
   handler       = "src.lambda_function.handler"
   runtime       = "python3.7"
 
@@ -24,7 +34,7 @@ resource "aws_lambda_function" "lambda_function" {
 
   environment {
     variables = {
-      PYTHONPATH  = "/var/task/venv/lib/python3.7/site-packages"
+      PYTHONPATH  = "/var/task/${var.PYTHON_LIB_PATH}"
 
       DB_HOST     = "mysql"
       DB_NAME     = "example"
